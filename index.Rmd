@@ -1,3 +1,8 @@
 ---
 site: blogdown:::blogdown_site
 ---
+
+# git add -A
+# git commit -m "commit changes"
+# git pull
+# git push
