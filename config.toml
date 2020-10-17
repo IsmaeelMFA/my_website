@@ -1,5 +1,5 @@
 # Site settings
-baseURL = "https://www.ismaeelportyfoles.netlify.app/"
+baseURL = "https://ismaeel-portyfoles.netlify.app/"
 languageCode = "en-us"
 title = "Ismaeel"
 theme = "forty"
