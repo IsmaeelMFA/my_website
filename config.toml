@@ -81,9 +81,9 @@ disqusShortname = ""
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "Hi, my name is Ismaeel"
-    subtitle = "This is my portfolio website."
-    buttonText = "Get Started"
+    title = "Ismaeel's Portfolio Website"
+    subtitle = "Welcome to my portfolio website, which details some of the projects that I'm working on at the moment."
+    buttonText = "My Projects"
 
 
   # Tiles Section
@@ -138,13 +138,11 @@ disqusShortname = ""
   # Section Type Two
   [params.two]
     enable = true
-    title = "Massa libero"
-    subtitle = """Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-    Mauris aliquet magna magna sed nunc rhoncus pharetra. 
-    Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
-    Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
-    Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus."""
-    buttonText = "Get Started"
+    title = "About me"
+    subtitle = """My name is Ismaeel Haq and I am currently Masters in Financial Analysis student at London Business School, having studied an undergraduate degree in Mathematics at the University of Durham.
+    During my undergraduate degree, I studied topics in dynamics and my dissertation thesis was entitled: Synchronisation: A Non-Linear Phenomenon in Dynamical, Structural and Financial Systems.
+    In my own time, I like to explore, play football and socialise with friends."""
+    buttonText = "More about me"
     url = "blogs"
 
 
@@ -172,47 +170,38 @@ disqusShortname = ""
     # by copying the corresponding map with frontmatter code.
     [[params.contact.email]]
     title = "Email"
-    email = "example@domain.com"
+    email = "ihaq.mfa2021@london.edu"
 
     [[params.contact.phone]]
-    title = "Phone"
-    phone = "(000) 000-0000 x1234"
+    title = "Phone (LBS)"
+    phone = "+44 20 7000 7000"
 
     [[params.contact.address]]
     title = "Address"
-    street = "Street"
-    city = "City, ST 00000"
-    country = "Country"
+    street = "Regent's Park"
+    city = "London, NW1 5SA"
+    country = "United Kingdom"
 
   # Footer section
   [params.footer]
     enable = true
-    copyright = "Company Name"
+    copyright = "Ismaeel Haq"
 
     # Uses font awesome icons
-    [[params.footer.social]]
-      icon = "fa-twitter"
-      url= "https://www.twitter.com"
-      label = "Twitter"
-
-    [[params.footer.social]]
-      icon = "fa-facebook"
-      url= "https://www.facebook.com"
-      label = "Facebook"
 
     [[params.footer.social]]
       icon = "fa-instagram"
-      url= "https://www.instagram.com"
+      url= "https://www.instagram.com/issi_haq/"
       label = "Instagram"
     
     [[params.footer.social]]
       icon = "fa-github"
-      url= "https://www.github.com"
+      url= "https://github.com/IsmaeelMFA"
       label = "GitHub"
 
     [[params.footer.social]]
       icon = "fa-linkedin"
-      url= "https://www.linkedin.com"
+      url= "https://www.linkedin.com/in/ismaeel-haq/"
       label = "LinkedIn"
 
     [[params.footer.quicklinks]]
