@@ -95,7 +95,7 @@ disqusShortname = ""
       title = "Aliquam"
       subtitle = "Ipsum Dolor Sit Amet"
       image = "pic01.jpg"
-      url = "blogs/aliquam"
+      url = "blogs/globalgdp"
 
     [[params.tiles.showcase]]
       title = "Tempus"
