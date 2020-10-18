@@ -7,7 +7,7 @@ description:
 draft: false
 image: pic07.jpg
 keywords: ""
-slug: global gdp
+slug: globalgdp
 title: Evolution of GDP components over time
 ---
 
