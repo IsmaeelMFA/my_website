@@ -1,14 +1,14 @@
 ---
-categories:
-- ""
-- ""
-date: "2020-18-10"
-description:
-draft: false
+title: "Evolution of GDP components over time"
+date: '2020-18-10'
+description: null
+draft: no
 image: pic07.jpg
-keywords: ""
+keywords: ''
 slug: globalgdp
-title: Evolution of GDP components over time
+categories:
+- ''
+- ''
 ---
 
 
@@ -154,7 +154,6 @@ We will now break down GDP as the sum of Household Expenditure (Consumption *C*)
 
 
 ```{r gdp_3, echo=FALSE, out.width="100%"}
-knitr::include_graphics(here::here("images", "gdp2.png"), error = FALSE)
 
 GDP_components%>% 
   

@@ -92,8 +92,8 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "Aliquam"
-      subtitle = "Ipsum Dolor Sit Amet"
+      title = "GDP Evolution"
+      subtitle = "Analysing international economic data"
       image = "pic01.jpg"
       url = "blogs/globalgdp"
 
