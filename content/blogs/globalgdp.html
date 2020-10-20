@@ -1,0 +1,75 @@
+---
+title: "Evolution of GDP components over time"
+date: '2020-17-10'
+description: null
+draft: no
+image: pic07.jpg
+keywords: ''
+slug: globalgdp
+categories:
+- ''
+- ''
+---
+
+
+
+<div id="background-info" class="section level1">
+<h1>Background Info</h1>
+<p>We can simplify the main components of gross domestic product, GDP are personal consumption (C), business investment (I), government spending (G) and net exports (exports - imports). You can read more about GDP and the different approaches in calculating at the <a href="https://en.wikipedia.org/wiki/Gross_domestic_product">Wikipedia GDP page</a>.</p>
+<p>The GDP data we will look at is from the <a href="https://unstats.un.org/unsd/snaama/Downloads">United Nations’ National Accounts Main Aggregates Database</a>, which contains estimates of total GDP and its components for all countries from 1970 to today. We will look at how GDP and its components have changed over time, and compare different countries and how much each component contributes to that country’s GDP. The file we will work with is <a href="http://unstats.un.org/unsd/amaapi/api/file/6">GDP and its breakdown at constant 2010 prices in US Dollars</a>.</p>
+</div>
+<div id="data-cleaning" class="section level1">
+<h1>Data Cleaning</h1>
+<pre class="r"><code>UN_GDP_data  &lt;-  read_excel(&quot;Download-GDPconstant-USD-countries.xls&quot;, # Excel filename
+                sheet=&quot;Download-GDPconstant-USD-countr&quot;, # Sheet name
+                skip=2) # Number of rows to skip</code></pre>
+<p>The first thing we will do tidy the data, as it is in wide format and you must make it into long, tidy format.</p>
+<pre class="r"><code>GDP_tidy&lt;-UN_GDP_data %&gt;% 
+  
+  pivot_longer(cols = 4:51, names_to = &#39;Year&#39;, values_to = &#39;Value&#39;) %&gt;% 
+  filter(IndicatorName %in% c(&#39;Gross capital formation&#39;,
+                    &#39;Exports of goods and services&#39;,
+                    &#39;Imports of goods and services&#39;,
+                    &#39;General government final consumption expenditure&#39;,
+                    &#39;Household consumption expenditure (including Non-profit institutions serving households)&#39;,
+                    &#39;Gross Domestic Product (GDP)&#39;)) %&gt;%
+  mutate(Value = Value/1e9) %&gt;%
+  
+   # renaming our indicators
+  mutate(IndicatorName = case_when(IndicatorName == &#39;Gross capital formation&#39; ~ &#39;Gross capital formation&#39;,
+                 IndicatorName == &#39;Gross Domestic Product (GDP)&#39; ~ &#39;GDP&#39;,
+                 IndicatorName == &#39;Imports of goods and services&#39; ~ &#39;Imports&#39;,
+                 IndicatorName == &#39;Exports of goods and services&#39; ~ &#39;Exports&#39;,
+                 IndicatorName == &#39;General government final consumption expenditure&#39; ~ &#39;Government expenditure&#39;,
+                 IndicatorName == &#39;Household consumption expenditure (including Non-profit institutions serving households)&#39; ~ &#39;Household expenditure&#39;))
+
+glimpse(GDP_tidy)</code></pre>
+<pre><code>## Rows: 63,072
+## Columns: 5
+## $ CountryID     &lt;dbl&gt; 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4…
+## $ Country       &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanist…
+## $ IndicatorName &lt;chr&gt; &quot;Household expenditure&quot;, &quot;Household expenditure&quot;, &quot;Hous…
+## $ Year          &lt;chr&gt; &quot;1970&quot;, &quot;1971&quot;, &quot;1972&quot;, &quot;1973&quot;, &quot;1974&quot;, &quot;1975&quot;, &quot;1976&quot;,…
+## $ Value         &lt;dbl&gt; 5.07, 4.84, 4.70, 5.21, 5.59, 5.65, 5.68, 6.15, 6.30, 6…</code></pre>
+</div>
+<div id="producing-the-plot" class="section level1">
+<h1>Producing the Plot</h1>
+<p><img src="/blogs/globalgdp_files/figure-html/gdp_1-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>What is the % difference between what we calculated as GDP and the GDP figure included in the dataframe?</p>
+<pre><code>## Mean difference between calculated and given GDPs:
+##  0.00398</code></pre>
+<p>Perhaps this mean difference arises from reporting standards and currency rates, resulting in different calculations for each country.</p>
+<p>We will now break down GDP as the sum of Household Expenditure (Consumption <em>C</em>), Gross Capital Formation (business investment <em>I</em>), Government Expenditure (G) and Net Exports (exports - imports).</p>
+<p><img src="/blogs/globalgdp_files/figure-html/gdp_3-1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="some-findings" class="section level1">
+<h1>Some Findings</h1>
+<div id="germanys-trade-surplus" class="section level2">
+<h2>Germany’s trade surplus</h2>
+<p>Germany is the only country in the list (and one of few globally) that exhibits a clear, consistent trade surplus, primarily due to strong exports of vehicles and other machinery. This surplus has been labelled as ‘toxic’ by many, who regard it as a liability rather than an asset - even Donald Trump!</p>
+</div>
+<div id="indias-occupation-demographics" class="section level2">
+<h2>India’s occupation demographics</h2>
+<p>From the graph it is also clear to see that India’s GDP has historically been dependent on household expenditure, but this reliance has been declining in recent years, at the expense of investment. Even before COVID-19 struck, India’s household consumer demand has been vulnerable and unpredictable because of skewed occupation demographics and its clear wealth gap - India’s richest 20% of households account for 36% of consumption expenditure. On the flipside, investment in the country has risen rapidly due to favourable infrastructural factors for investors, such as energy, communication and health, and government-led FDI incentives.</p>
+</div>
+</div>

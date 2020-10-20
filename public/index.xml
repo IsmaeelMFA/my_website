@@ -2,56 +2,77 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ismaeel</title>
-    <link>www.ismaeelportyfoles.netlify.app/</link>
+    <link>/</link>
     <description>Recent content on Ismaeel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Oct 2017 22:42:51 -0500</lastBuildDate><atom:link href="www.ismaeelportyfoles.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 31 Oct 2017 22:42:51 -0500</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Aliquam</title>
-      <link>www.ismaeelportyfoles.netlify.app/blogs/aliquam/</link>
+      <title>Alcohol consumption around the world!</title>
+      <link>/blogs/alcohol/</link>
       <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
       
-      <guid>www.ismaeelportyfoles.netlify.app/blogs/aliquam/</guid>
-      <description></description>
+      <guid>/blogs/alcohol/</guid>
+      <description>Back in 2014, fivethiryeight.com published an article on alchohol consumption in different countries. The data drinks is available as part of the fivethirtyeight package. Let’s get the data.
+library(fivethirtyeight) data(drinks) Before further analysis, let’s have a brief look into the dataframe.
+glimpse(drinks) ## Rows: 193 ## Columns: 5 ## $ country &amp;lt;chr&amp;gt; &amp;quot;Afghanistan&amp;quot;, &amp;quot;Albania&amp;quot;, &amp;quot;Algeria&amp;quot;, &amp;quot;An… ## $ beer_servings &amp;lt;int&amp;gt; 0, 89, 25, 245, 217, 102, 193, 21, 261, … ## $ spirit_servings &amp;lt;int&amp;gt; 0, 132, 0, 138, 57, 128, 25, 179, 72, 75… ## $ wine_servings &amp;lt;int&amp;gt; 0, 54, 14, 312, 45, 45, 221, 11, 212, 19… ## $ total_litres_of_pure_alcohol &amp;lt;dbl&amp;gt; 0.</description>
     </item>
     
     <item>
       <title>Tempus</title>
-      <link>www.ismaeelportyfoles.netlify.app/blogs/tempus/</link>
+      <link>/blogs/tempus/</link>
       <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
       
-      <guid>www.ismaeelportyfoles.netlify.app/blogs/tempus/</guid>
+      <guid>/blogs/tempus/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Magna</title>
-      <link>www.ismaeelportyfoles.netlify.app/blogs/magna/</link>
+      <link>/blogs/magna/</link>
       <pubDate>Tue, 31 Oct 2017 22:26:09 -0500</pubDate>
       
-      <guid>www.ismaeelportyfoles.netlify.app/blogs/magna/</guid>
+      <guid>/blogs/magna/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ipsum</title>
-      <link>www.ismaeelportyfoles.netlify.app/blogs/ipsum/</link>
+      <link>/blogs/ipsum/</link>
       <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
-      <guid>www.ismaeelportyfoles.netlify.app/blogs/ipsum/</guid>
+      <guid>/blogs/ipsum/</guid>
       <description>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</description>
     </item>
     
     <item>
       <title>Hello R Markdown</title>
-      <link>www.ismaeelportyfoles.netlify.app/post/2015-07-23-r-rmarkdown/</link>
+      <link>/post/2015-07-23-r-rmarkdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>www.ismaeelportyfoles.netlify.app/post/2015-07-23-r-rmarkdown/</guid>
+      <guid>/post/2015-07-23-r-rmarkdown/</guid>
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+    <item>
+      <title>Evolution of GDP components over time</title>
+      <link>/blogs/global/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/global/</guid>
+      <description>library(tidyverse) # Load ggplot2, dplyr, and all the other tidyverse packages library(mosaic) library(ggthemes) library(GGally) library(readxl) library(here) library(skimr) library(janitor) library(broom) library(tidyquant) library(infer) library(openintro) library(tidyquant) library(scales) Background Info We can simplify the main components of gross domestic product, GDP are personal consumption (C), business investment (I), government spending (G) and net exports (exports - imports). You can read more about GDP and the different approaches in calculating at the Wikipedia GDP page.</description>
+    </item>
+    
+    <item>
+      <title>Evolution of GDP components over time</title>
+      <link>/blogs/globalgdp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/globalgdp/</guid>
+      <description>Background Info We can simplify the main components of gross domestic product, GDP are personal consumption (C), business investment (I), government spending (G) and net exports (exports - imports). You can read more about GDP and the different approaches in calculating at the Wikipedia GDP page.
+The GDP data we will look at is from the United Nations’ National Accounts Main Aggregates Database, which contains estimates of total GDP and its components for all countries from 1970 to today.</description>
     </item>
     
   </channel>

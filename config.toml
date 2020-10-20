@@ -104,10 +104,10 @@ disqusShortname = ""
       url = "blogs/alcohol"
 
     [[params.tiles.showcase]]
-      title = "Magna"
-      subtitle = "Lorem Etiam Nullam"
+      title = "Gender Salary Gap"
+      subtitle = "Exploring Omega's pay discrimination "
       image = "pic03.jpg"
-      url = "blogs/magna"
+      url = "blogs/omega"
 
     [[params.tiles.showcase]]
       title = "Ipsum"
@@ -131,6 +131,9 @@ disqusShortname = ""
     subtitle = """My name is Ismaeel Haq and I am currently Masters in Financial Analysis student at London Business School, having studied an undergraduate degree in Mathematics at the University of Durham.
     During my undergraduate degree, I studied topics in dynamics and my dissertation thesis was entitled: Synchronisation: A Non-Linear Phenomenon in Dynamical, Structural and Financial Systems.
     In my own time, I like to explore, play football and socialise with friends."""
+    buttonText = "More about my Masters"
+    url = "https://www.london.edu/masters-degrees/masters-in-financial-analysis"
+
 
   # Contact section
   [params.contact]
