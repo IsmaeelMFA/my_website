@@ -1,9 +1,4 @@
 ---
-title: "omega"
-output: html_document
----
-
----
 categories:
 - ""
 - ""
