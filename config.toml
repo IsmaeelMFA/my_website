@@ -98,10 +98,10 @@ disqusShortname = ""
       url = "blogs/globalgdp"
 
     [[params.tiles.showcase]]
-      title = "Tempus"
-      subtitle = "Feugiat Amet Tempus"
+      title = "Alcohol Consumption"
+      subtitle = "Which nation are the biggest heavyweights?"
       image = "pic02.jpg"
-      url = "blogs/tempus"
+      url = "blogs/alcohol"
 
     [[params.tiles.showcase]]
       title = "Magna"
@@ -131,9 +131,6 @@ disqusShortname = ""
     subtitle = """My name is Ismaeel Haq and I am currently Masters in Financial Analysis student at London Business School, having studied an undergraduate degree in Mathematics at the University of Durham.
     During my undergraduate degree, I studied topics in dynamics and my dissertation thesis was entitled: Synchronisation: A Non-Linear Phenomenon in Dynamical, Structural and Financial Systems.
     In my own time, I like to explore, play football and socialise with friends."""
-    buttonText = "More about me"
-    url = "aboutme"
-
 
   # Contact section
   [params.contact]

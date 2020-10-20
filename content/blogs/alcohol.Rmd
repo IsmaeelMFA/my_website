@@ -1,0 +1,163 @@
+---
+categories:
+- ""
+- ""
+date: "2017-10-31T22:42:51-05:00"
+description: Which nation are the biggest heavyweights?
+draft: false
+image: pic02.jpg
+keywords: ""
+slug: alcohol
+title: Alcohol consumption around the world
+---
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(fivethirtyeight)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+library(rvest)    # scrape websites
+library(purrr)  
+library(lubridate) #to handle dates
+```
+
+Back in 2014, [fivethiryeight.com](https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/) published an article on alchohol consumption in different countries. The data `drinks` is available as part of the `fivethirtyeight` package. Let's get the data.
+
+```{r, load_alcohol_data}
+library(fivethirtyeight)
+data(drinks)
+```
+
+Before further analysis, let's have a brief look into the dataframe.
+
+```{r glimpse_skim_data}
+glimpse(drinks)
+skim(drinks)
+```
+
+There are 193 rows, which represent 193 countries, and 5 columns, among which we have 1 character variable and 4 numeric variables. Then, let's draw a plot for the top and bottom 25 beer consuming countries. 
+
+```{r beer_plot_top_25}
+beer_plot <- drinks %>%
+  arrange(desc(beer_servings)) %>%
+  select(country, beer_servings)
+beer_plot_top_25 <- head(beer_plot, 25)
+ggplot(data = beer_plot_top_25, aes(x = beer_servings, y = reorder(country, beer_servings))) + 
+  geom_col() + 
+  labs(title = "Top 25 Beer Consuming Counntries", 
+       x = "Servings",
+       y = "Countries")
+```
+
+```{r beer_plot_bottom_25}
+beer_plot_new <- drinks %>%
+  arrange(beer_servings) %>%
+  select(country, beer_servings)
+beer_plot_bottom_25 <- head(beer_plot_new, 25)
+ggplot(data = beer_plot_bottom_25, aes(x = beer_servings, y = reorder(country, beer_servings))) + 
+  geom_col() + 
+  labs(title = "Bottom 25 Beer Consuming Counntries", 
+       x = "Servings",
+       y = "Countries")
+```
+
+As we can see from the plots, Namibians consume the most beer among these 193 countries, followed by Czech Republic and Gabon. There are 15 countries either consume little beer or have missing values here. Intuitively, it makes sense that Saudi Arabian people do not drink beer because of their religon. However, things might be different for North Korea, and I believe there is a missing value instead that North Korean people do not have beer at all.
+
+```{r wine_plot_top_25}
+wine_plot <- drinks %>%
+  arrange(desc(wine_servings)) %>%
+  select(country, wine_servings)
+wine_plot_top_25 <- head(wine_plot, 25)
+ggplot(data = wine_plot_top_25, aes(x = wine_servings, y = reorder(country, wine_servings))) + 
+  geom_col() + 
+  labs(title = "Top 25 wine Consuming Counntries", 
+       x = "Servings",
+       y = "Countries")
+```
+
+```{r wine_plot_bottom_25}
+wine_plot_new <- drinks %>%
+  arrange(wine_servings) %>%
+  select(country, wine_servings)
+wine_plot_bottom_25 <- head(wine_plot_new, 25)
+ggplot(data = wine_plot_bottom_25, aes(x = wine_servings, y = reorder(country, wine_servings))) + 
+  geom_col() + 
+  labs(title = "Bottom 25 wine Consuming Counntries", 
+       x = "Servings",
+       y = "Countries")
+```
+
+From the above plots, French people consume the most wine, which is intuitively correct, followed by Portugal and Andorra. It is easy to notice that European countries take up the most places of top 25 beer consuming countries, so we may conclude that European people do have a passion for wine. As for the bottom 25 countries, all of them show a value of zero, but just like the beer analysis above, some countries sure do not drink wine, while some may just have a missing value over here.
+
+```{r spirit_plot_top_25}
+spirit_plot <- drinks %>%
+  arrange(desc(spirit_servings)) %>%
+  select(country, spirit_servings)
+spirit_plot_top_25 <- head(spirit_plot, 25)
+ggplot(data = spirit_plot_top_25, aes(x = spirit_servings, y = reorder(country, spirit_servings))) + 
+  geom_col() + 
+  labs(title = "Top 25 Spirit Consuming Counntries", 
+       x = "Servings",
+       y = "Countries")
+```
+
+```{r spirit_plot_bottom_25}
+spirit_plot_new <- drinks %>%
+  arrange(spirit_servings) %>%
+  select(country, spirit_servings)
+spirit_plot_bottom_25 <- head(spirit_plot_new, 25)
+ggplot(data = spirit_plot_bottom_25, aes(x = spirit_servings, y = reorder(country, spirit_servings))) + 
+  geom_col() + 
+  labs(title = "Bottom 25 Spirit Consuming Counntries", 
+       x = "Servings",
+       y = "Countries")
+```
+
+The maximun consumption for spirits is bigger than both beer and wine, as Grenadaians drink over 400 liters of spirits per year. Belarus and Russian Federation are top 2 and top 3, respectively. There are 23 countries that have zero value for spirits consumption, either becuase of religon reason or due to missing values.
+
+```{r total_lirers_of_pure_alcohol}
+pure_alcohol <- drinks %>%
+  arrange(desc(total_litres_of_pure_alcohol)) %>%
+  select(country, total_litres_of_pure_alcohol)
+pure_alcohol_top_25 <- head(pure_alcohol, 25)
+ggplot(data = pure_alcohol_top_25, aes(x = total_litres_of_pure_alcohol, y = reorder(country, total_litres_of_pure_alcohol))) + 
+  geom_col() + 
+  labs(title = "Pure Alcohol Consumption Top 25", 
+       x = "Servings",
+       y = "Countries")
+```
+
+```{r ranks}
+drinks_ranks <- drinks %>% #add rankings to each category 
+  mutate(beer_rank = rank(-beer_servings, na.last = TRUE, ties.method = "random")) %>%
+  mutate(wine_rank = rank(-wine_servings, na.last = TRUE, ties.method = "random")) %>%
+  mutate(spirit_rank = rank(-spirit_servings, na.last = TRUE, ties.method = "random")) %>%
+  mutate(alcohol_rank = rank(-total_litres_of_pure_alcohol, na.last = TRUE, ties.method = "random")) %>%
+  arrange(alcohol_rank) %>%
+  select(country, beer_rank, wine_rank, spirit_rank, alcohol_rank)
+ 
+drinks_ranks_top_10 <- head(drinks_ranks, 10)
+drinks_ranks_top_10
+```
+
+As for pure alcohol consumption, Belarus, Lithuania and Andorra take up the first 3 places. As we can see from the above table, countries with higher rankings in pure alcohol consumption also have higher rankings in at least one of the three main alcohol beverages. 
