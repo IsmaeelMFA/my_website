@@ -11,6 +11,24 @@ slug: globalgdp
 title: Evolution of GDP components over time
 ---
 
+
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
 ```{r load-libraries, setup, echo=FALSE}
 
 library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
@@ -41,9 +59,9 @@ The GDP data we will look at is from the [United Nations' National Accounts Main
 
 ```{r read_GDP_data, message=FALSE, warning=FALSE}
 
-UN_GDP  <-  read_excel(here::"Users/ismaeel/Desktop/LBS MFA/Date Analytics/my_website/data", "Download-GDPconstant-USD-countries.xls"), # Excel filename
+UN_GDP_data  <-  read_excel(here::here("data", "Download-GDPconstant-USD-countries.xls"), # Excel filename
                 sheet="Download-GDPconstant-USD-countr", # Sheet name
-                skip=1) # Number of rows to skip
+                skip=2) # Number of rows to skip
 
 ```
 
@@ -51,7 +69,7 @@ UN_GDP  <-  read_excel(here::"Users/ismaeel/Desktop/LBS MFA/Date Analytics/my_we
 
 ```{r reshape_GDP_data}
 
-GDP_tidy<-UN_GDP %>% 
+GDP_tidy<-UN_GDP_data %>% 
   
   pivot_longer(cols = 4:51, names_to = 'Year', values_to = 'Value') %>% 
   filter(IndicatorName %in% c('Gross capital formation',
@@ -138,7 +156,7 @@ We will now break down GDP as the sum of Household Expenditure (Consumption *C*)
 ```{r gdp_3, echo=FALSE, out.width="100%"}
 knitr::include_graphics(here::here("images", "gdp2.png"), error = FALSE)
 
-GDP_breakdown %>% 
+GDP_components%>% 
   
   #Filtering according to our pre-specified country list
   filter(Country %in% country_list) %>% 
