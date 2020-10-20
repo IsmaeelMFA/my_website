@@ -1,6 +1,6 @@
 ---
 title: "Evolution of GDP components over time"
-date: '2020-18-10'
+date: '2020-17-10'
 description: null
 draft: no
 image: pic07.jpg
