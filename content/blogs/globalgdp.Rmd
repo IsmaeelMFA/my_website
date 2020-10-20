@@ -39,9 +39,9 @@ The GDP data we will look at is from the [United Nations' National Accounts Main
 # Data Cleaning
 
 
-```{r read_GDP_data}
+```{r read_GDP_data, message=FALSE, warning=FALSE}
 
-UN_GDP  <-  read_excel(here::here("data", "Download-GDPconstant-USD-countries.xls"), # Excel filename
+UN_GDP  <-  read_excel(here::"Users/ismaeel/Desktop/LBS MFA/Date Analytics/my_website/data", "Download-GDPconstant-USD-countries.xls"), # Excel filename
                 sheet="Download-GDPconstant-USD-countr", # Sheet name
                 skip=1) # Number of rows to skip
 
@@ -77,7 +77,7 @@ glimpse(GDP_tidy)
 # Producing the Plot
 
 
-```{r gdp_1, out.width="100%"}
+```{r gdp_1, echo=FALSE, out.width="100%"}
 
 #Selecting our 3 countries of interest
 country_list <- c("Germany","Spain", "France")
@@ -112,7 +112,7 @@ plot1 %>%
 
 What is the % difference between what we calculated as GDP and the GDP figure included in the dataframe?
 
-```{r gdp_2, out.width="100%"}
+```{r gdp_2, echo=FALSE, out.width="100%"}
 GDP_components <- GDP_tidy %>% 
 
   pivot_wider(names_from = IndicatorName,
@@ -135,7 +135,7 @@ We will now break down GDP as the sum of Household Expenditure (Consumption *C*)
 
 
 
-```{r gdp_3, out.width="100%"}
+```{r gdp_3, echo=FALSE, out.width="100%"}
 knitr::include_graphics(here::here("images", "gdp2.png"), error = FALSE)
 
 GDP_breakdown %>% 
@@ -192,13 +192,3 @@ Germany is the only country in the list (and one of few globally) that exhibits 
 ## India's occupation demographics
 
 From the graph it is also clear to see that India's GDP has historically been dependent on household expenditure, but this reliance has been declining in recent years, at the expense of investment. Even before COVID-19 struck, India’s household consumer demand has been vulnerable and unpredictable because of skewed occupation demographics and its clear wealth gap - India’s richest 20% of households account for 36% of consumption expenditure. On the flipside, investment in the country has risen rapidly due to favourable infrastructural factors for investors, such as energy, communication and health, and government-led FDI incentives.
-
-
-
-
-
-
-
-
-
-
