@@ -47,18 +47,23 @@ disqusShortname = ""
       name = "Home"
       url = "#"
 
-#    [[params.navigation.links]]
-#      name = "Blogs"
-#      url = "blogs"
+    [[params.navigation.button1]]
+      name = "Project: GDP Evolution"
+      url = "blogs/globalgdp"
 
-#    [[params.navigation.links]]
-#      name = "Generic Blog"
-#      url = "blogs/ipsum"
+    [[params.navigation.button1]]
+      name = "Project: Alcohol Consumption"
+      url = "blogs/alcohol"
+      
+    [[params.navigation.button1]]
+      name = "Project: Gender Salary Gap"
+      url = "blogs/omega"
 
-#    [[params.navigation.links]]
-#      name = "Elements"
-#      url = "elements.html"
-
+    [[params.navigation.button1]]
+      name = "Project: Youth Social Media Use"
+      url = "blogs/gss"
+      
+      
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
     # code below if you need more links. Buttons work in the same way.
@@ -66,15 +71,11 @@ disqusShortname = ""
     #    name = "NameOfLink"
     #    url = "UrlOfLink"
 
-    # Button Style 1
-    [[params.navigation.button1]]
-      name = "Get Started"
-      url = "blogs"
 
     # Button Style 2
-#    [[params.navigation.button2]]
-#      name = "Log In"
-#      url = "#"
+   #  [[params.navigation.button2]]
+   #    name = "Log In"
+     #  url = "#"
 
 
   # Banner section

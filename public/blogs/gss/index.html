@@ -1,0 +1,501 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Ismaeel&#39;s description">
+	<meta name="author" content="Ismaeel">
+	<meta name="generator" content="Hugo 0.76.5" />
+	<title>Analysing General Social Survey Data &middot; Ismaeel</title>
+	<!-- Stylesheets -->
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	
+	
+
+	
+
+	<!-- Custom Fonts -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/ie/html5shiv.js"></script>
+	<script src="js/ie/html5shiv.jsrespond.min.js"></script>
+	<![endif]-->
+</head>
+
+    <body>
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+    <header id="header" class="alt">
+        <a href="/" class="logo"><strong>Ismaeel Haq</strong> <span>MFA Student at LBS</span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+<!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            
+                <li><a href="/">Home</a></li>
+            
+
+        </ul>
+        <ul class="actions vertical">
+            
+                <li><a href="/blogs/globalgdp" class="button special fit">Project: GDP Evolution</a></li>
+            
+                <li><a href="/blogs/alcohol" class="button special fit">Project: Alcohol Consumption</a></li>
+            
+                <li><a href="/blogs/omega" class="button special fit">Project: Gender Salary Gap</a></li>
+            
+                <li><a href="/blogs/gss" class="button special fit">Project: Youth Social Media Use</a></li>
+            
+            
+        </ul>
+    </nav>
+
+        <!-- Main -->
+            <div id="main" class="alt">
+
+                
+                    <section id="one">
+                        <div class="inner">
+                            <header class="major">
+                                <h1>Analysing General Social Survey Data</h1>
+                            </header>
+                            
+                                <span class="image main"><img src="/img/blogs/Quitsocial.jpg" alt="" /></span>
+                            
+                            
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<p>The <a href="http://www.gss.norc.org/">General Social Survey (GSS)</a> gathers data on American society in order to monitor and explain trends in attitudes, behaviours, and attributes. Many trends have been tracked for decades, so one can see the evolution of attitudes, etc in American Society.</p>
+<p>In this assignment we analyze data from the <strong>2016 GSS sample data</strong>, using it to estimate values of <em>population parameters</em> of interest about US adults. The GSS sample data file has 2867 observations of 935 variables, but we are only interested in very few of these variables and you are using a smaller file.</p>
+<pre class="r"><code>gss &lt;- read_csv(&quot;smallgss2016.csv&quot;, 
+                na = c(&quot;&quot;, &quot;Don&#39;t know&quot;,
+                       &quot;No answer&quot;, &quot;Not applicable&quot;))</code></pre>
+<p>You will also notice that many responses should not be taken into consideration, like “No Answer”, “Don’t Know”, “Not applicable”, “Refused to Answer”.</p>
+<p>We will be creating 95% confidence intervals for population parameters. The variables we have are the following:</p>
+<ul>
+<li>hours and minutes spent on email weekly. The responses to these questions are recorded in the <code>emailhr</code> and <code>emailmin</code> variables. For example, if the response is 2.50 hours, this would be recorded as emailhr = 2 and emailmin = 30.</li>
+<li><code>snapchat</code>, <code>instagrm</code>, <code>twitter</code>: whether respondents used these social media in 2016</li>
+<li><code>sex</code>: Female - Male</li>
+<li><code>degree</code>: highest education level attained</li>
+</ul>
+<div id="instagram-and-snapchat-by-sex" class="section level2">
+<h2>Instagram and Snapchat, by sex</h2>
+<p>Can we estimate the <em>population</em> proportion of Snapchat or Instagram users in 2016?</p>
+<ol style="list-style-type: decimal">
+<li>Create a new variable, <code>snap_insta</code> that is <em>Yes</em> if the respondent reported using any of Snapchat (<code>snapchat</code>) or Instagram (<code>instagrm</code>), and <em>No</em> if not. If the recorded value was NA for both of these questions, the value in your new variable should also be NA.</li>
+<li>Calculate the proportion of Yes’s for <code>snap_insta</code> among those who answered the question, i.e. excluding NAs.</li>
+<li>Using the CI formula for proportions, please construct 95% CIs for men and women who used either Snapchat or Instagram</li>
+</ol>
+<div id="new-variablesnap_insta-measuring-the-union-of-snapchat-and-instagram-users" class="section level3">
+<h3>New variable`snap_insta’, measuring the union of snapchat and instagram users</h3>
+<pre class="r"><code>gss &lt;- gss %&gt;%
+    mutate(snap_insta = case_when(snapchat == &quot;Yes&quot;                 ~ &quot;Yes&quot;,
+                                instagrm == &quot;Yes&quot;                 ~ &quot;Yes&quot;,    
+                                snapchat == &quot;No&quot; &amp; instagrm == &quot;No&quot;~ &quot;No&quot;,
+                                snapchat == &quot;NA&quot; &amp; instagrm == &quot;NA&quot; ~ &quot;NA&quot;)
+    )</code></pre>
+</div>
+<div id="determining-the-proportion-of-snapchat-or-insta-users-in-the-sample-of-those-who-gave-definitive-answers" class="section level3">
+<h3>Determining the proportion of Snapchat or Insta users in the sample, of those who gave definitive answers</h3>
+<pre class="r"><code>proportion_snap_insta&lt;- gss %&gt;% 
+  count(snap_insta) %&gt;% 
+  pivot_wider(names_from=snap_insta , values_from=n) %&gt;% 
+  mutate(prop_yes=Yes/(No+Yes))
+  
+proportion_snap_insta %&gt;% 
+  # Playing around with KBL package to produce a more aesthetically-pleasant table
+  kbl(col.names = c(&quot;Indefinite Responses&quot;, &quot;Neither Snapchat nor Insta User&quot;, &quot;Snapchat or Insta User&quot;, &quot;Proportion of Snapchat or Insta users in sample&quot;),
+      caption = &#39;37.5% of the sample population use at least either Snapchat or Instagram&#39;) %&gt;%
+  kable_styling(fixed_thead = T, full_width = F, font_size = 12)</code></pre>
+<table class="table" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+(#tab:proportion_snap_insta)37.5% of the sample population use at least either Snapchat or Instagram
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Indefinite Responses
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Neither Snapchat nor Insta User
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Snapchat or Insta User
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Proportion of Snapchat or Insta users in sample
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1495
+</td>
+<td style="text-align:right;">
+858
+</td>
+<td style="text-align:right;">
+514
+</td>
+<td style="text-align:right;">
+0.375
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="twitter-by-education-level" class="section level2">
+<h2>Twitter, by education level</h2>
+<p>Can we estimate the <em>population</em> proportion of Twitter users by education level in 2016?.</p>
+<p>There are 5 education levels in variable <code>degree</code> which, in ascneding order of years of education, are Lt high school, High School, Junior college, Bachelor, Graduate.</p>
+<ol style="list-style-type: decimal">
+<li>Turn <code>degree</code> from a character variable into a factor variable. Make sure the order is the correct one and that levels are not sorted alphabetically which is what R by default does.</li>
+<li>Create a new variable, <code>bachelor_graduate</code> that is <em>Yes</em> if the respondent has either a <code>Bachelor</code> or <code>Graduate</code> degree. As before, if the recorded value for either was NA, the value in your new variable should also be NA.</li>
+<li>Calculate the proportion of <code>bachelor_graduate</code> who do (Yes) and who don’t (No) use twitter.</li>
+<li>Using the CI formula for proportions, please construct two 95% CIs for <code>bachelor_graduate</code> vs whether they use (Yes) and don’t (No) use twitter.</li>
+<li>Do these two Confidence Intervals overlap?</li>
+</ol>
+<div id="adjusting-the-variable-type-of-degree" class="section level3">
+<h3>Adjusting the variable type of `degree’</h3>
+<pre class="r"><code>twitter_gss&lt;- gss %&gt;% 
+  na.omit(degree) %&gt;% 
+  mutate(degree = factor(degree, 
+                         levels = c(&quot;Lt high school&quot;, 
+                                    &quot;High School&quot;, 
+                                    &quot;Junior college&quot;, 
+                                    &quot;Bachelor&quot;, 
+                                    &quot;Graduate&quot;))) %&gt;% 
+  arrange((degree))</code></pre>
+</div>
+<div id="creating-a-new-variable-bachelor_graduate-that-distinguishes-between-pre-and-post-bachelor-degrees" class="section level3">
+<h3>Creating a new variable `bachelor_graduate’ that distinguishes between pre and post bachelor degrees</h3>
+<pre class="r"><code>twitter_gss &lt;- twitter_gss %&gt;% 
+  mutate(bachelor_graduate = case_when(
+    degree == &quot;Bachelor&quot; |  degree == &quot;Graduate&quot; ~ &quot;Yes&quot;, 
+    degree == &quot;Lt high school&quot; | degree == &quot;High School&quot; | degree == &quot;Junior college&quot; ~ &quot;No&quot;
+    ))</code></pre>
+</div>
+<div id="calculating-the-proportion-of-bachelor_graduates-that-use-twitter" class="section level3">
+<h3>Calculating the proportion of <code>bachelor_graduate</code>s that use twitter</h3>
+<pre class="r"><code>proportion_twitter&lt;- twitter_gss %&gt;% 
+  filter(bachelor_graduate == &quot;Yes&quot;) %&gt;%
+  count(twitter) %&gt;% 
+  pivot_wider(names_from=twitter , values_from=n) %&gt;% 
+  mutate(prop_yes=Yes/(No+Yes))
+
+proportion_twitter %&gt;% 
+  # Playing around with KBL package to produce a more aesthetically-pleasant table
+  kbl(col.names = c(&quot;Indefinite Responses&quot;, &quot;Do not use Twitter&quot;, &quot;Twitter User&quot;, &quot;Proportion of Twitter users in sample of Bachelor Grads&quot;),
+      caption = &#39;23.3% of bachelor grads from the sample population use twitter&#39;) %&gt;%
+  kable_styling(fixed_thead = T, full_width = F, font_size = 12, )</code></pre>
+<table class="table" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+(#tab:twitter_users)23.3% of bachelor grads from the sample population use twitter
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Indefinite Responses
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Do not use Twitter
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Twitter User
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Proportion of Twitter users in sample of Bachelor Grads
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+365
+</td>
+<td style="text-align:right;">
+375
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+0.233
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="constructing-95-confidence-intervals-for-bachelor-grads-who-use-and-dont-use-twitter-excluding-nas" class="section level3">
+<h3>Constructing 95% confidence intervals for bachelor grads who use and don’t use twitter (excluding NAs)</h3>
+<pre class="r"><code>#Calculating the proportion of snapchat and insta users, grouped by sex
+bachelor_prop &lt;- twitter_gss %&gt;%
+  filter(bachelor_graduate ==&quot;Yes&quot;) %&gt;%
+  filter(twitter!=&quot;NA&quot;) %&gt;%
+  group_by(twitter) %&gt;%
+  summarise(count = n()) %&gt;% 
+  mutate(Proportion = count/sum(count))
+
+#Determining the standard error and subsequently the confidence intervals for both sexes
+bachelor_prop &lt;- bachelor_prop %&gt;%
+  mutate(std_error = round(sqrt(Proportion*(1-Proportion)/count),3)) %&gt;%
+  # 95% confidence interval calculation (z score of 2)
+  mutate(lower_level = round(Proportion - 1.96*std_error,3), 
+         upper_level = round(Proportion + 1.96*std_error,3))
+
+
+#Cleaning up the table
+bachelor_prop %&gt;%
+    # Playing around with KBL package to produce a more aesthetically-pleasant table
+  kbl(col.names = c(&quot;Twitter User?&quot;, &quot;Total in Sample&quot;,&quot;Proportion of Bachelor Grads&quot;,&quot;Standard Error&quot;, &quot;Lower CI&quot;,&quot;Upper CI&quot;),
+      caption = &#39;95% confidence intervals on the proportion of bachelor grads, grouped by their twitter use&#39;)%&gt;%
+  kable_styling(fixed_thead = T, full_width = F, font_size = 12 )</code></pre>
+<table class="table" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+(#tab:twitter_prop)95% confidence intervals on the proportion of bachelor grads, grouped by their twitter use
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Twitter User?
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Total in Sample
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Proportion of Bachelor Grads
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Standard Error
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Lower CI
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Upper CI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+375
+</td>
+<td style="text-align:right;">
+0.767
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+0.724
+</td>
+<td style="text-align:right;">
+0.810
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+0.233
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.155
+</td>
+<td style="text-align:right;">
+0.312
+</td>
+</tr>
+</tbody>
+</table>
+<p>These confidence intervals do not overlap.</p>
+</div>
+</div>
+<div id="email-usage" class="section level2">
+<h2>Email usage</h2>
+<p>Can we estimate the <em>population</em> parameter on time spent on email weekly?</p>
+<ol style="list-style-type: decimal">
+<li>Create a new variable called <code>email</code> that combines <code>emailhr</code> and <code>emailmin</code> to reports the number of minutes the respondents spend on email weekly.</li>
+<li>Visualise the distribution of this new variable. Find the mean and the median number of minutes respondents spend on email weekly. Is the mean or the median a better measure of the typical amoung of time Americans spend on email weekly? Why?</li>
+<li>Using the <code>infer</code> package, calculate a 95% bootstrap confidence interval for the mean amount of time Americans spend on email weekly. Interpret this interval in context of the data, reporting its endpoints in “humanized” units (e.g. instead of 108 minutes, report 1 hr and 8 minutes). If you get a result that seems a bit odd, discuss why you think this might be the case.</li>
+<li>Would you expect a 99% confidence interval to be wider or narrower than the interval you calculated above? Explain your reasoning.</li>
+</ol>
+<div id="combining-emailhr-and-emailmin-into-a-new-variable-email" class="section level3">
+<h3>Combining emailhr and emailmin into a new variable `email’</h3>
+<pre class="r"><code>email &lt;- gss %&gt;%
+  mutate_at(vars(emailhr,emailmin), funs(as.numeric)) %&gt;% 
+  mutate(email=emailmin*(emailhr*60)) %&gt;% 
+  arrange(desc(email))
+
+email</code></pre>
+<pre><code>## # A tibble: 2,867 x 9
+##    emailmin emailhr snapchat instagrm twitter sex    degree     snap_insta email
+##       &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;
+##  1       30      12 NA       NA       NA      Female High scho… NA         21600
+##  2       15      20 No       Yes      No      Female High scho… Yes        18000
+##  3       30       9 NA       NA       NA      Female Graduate   NA         16200
+##  4       30       8 No       No       Yes     Male   Graduate   No         14400
+##  5       30       3 NA       NA       NA      Male   High scho… NA          5400
+##  6       30       3 NA       NA       NA      Female Graduate   NA          5400
+##  7       30       3 NA       NA       NA      Male   Graduate   NA          5400
+##  8       30       2 No       No       No      Male   Graduate   No          3600
+##  9       30       2 NA       NA       NA      Male   Graduate   NA          3600
+## 10       30       2 No       No       No      Female Bachelor   No          3600
+## # … with 2,857 more rows</code></pre>
+</div>
+<div id="finding-the-mean-and-median-number-of-minutes-respondents-spend-on-email-weekly-and-visualising-the-distribution-of-email" class="section level3">
+<h3>Finding the mean and median number of minutes respondents spend on email weekly and visualising the distribution of `email’</h3>
+<pre class="r"><code>email_summary &lt;- email %&gt;%
+   na.omit(email) %&gt;%
+  summarize(mean = mean(email), median = median(email)) 
+
+email_summary</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    mean median
+##   &lt;dbl&gt;  &lt;dbl&gt;
+## 1  87.5      0</code></pre>
+<pre class="r"><code>ggplot(email, aes(y=email)) +
+  geom_boxplot()+
+  scale_y_log10() +
+  theme_clean() +
+  labs(title=&quot;Boxplot showing how long US Adults spend emailing per week!&quot;,
+       y=&quot;Email Minutes&quot;
+       )</code></pre>
+<p><img src="/blogs/gss_files/figure-html/email_dist-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>Typically, the mean is a better measure when the distribution is roughly normal. However, if the curve is more flat and/or skewed, as is the case here, the median is the best gauge of the typical amounnt of time Americans spend on email weekly</p>
+</div>
+<div id="calculating-a-95-bootstrap-confidence-interval-for-the-mean-amount-of-time-americans-spend-on-email-weekly" class="section level3">
+<h3>Calculating a 95% bootstrap confidence interval for the mean amount of time Americans spend on email weekly</h3>
+<pre class="r"><code>ci_bootstrap_email &lt;- email %&gt;% 
+  specify(response = email) %&gt;% 
+  generate(reps = 100, type=&quot;bootstrap&quot;) %&gt;% 
+  calculate(stat = &quot;mean&quot;) %&gt;% 
+  get_confidence_interval(level = 0.95, type = &quot;percentile&quot;) %&gt;% 
+  mutate(lower_ci = lower_ci/60, upper_ci = upper_ci/60)
+
+ci_bootstrap_email %&gt;%
+    # Playing around with KBL package to produce a more aesthetically-pleasant table
+  kbl(col.names = c(&quot;Lower CI&quot;,&quot;Upper CI&quot;),
+      caption = &#39;95% bootstap confidence intervals for the mean amount of time Americans spend emailing weekly&#39;)%&gt;%
+  kable_styling(fixed_thead = T, full_width = F, font_size = 12 )</code></pre>
+<table class="table" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+(#tab:email_bootstrap)95% bootstap confidence intervals for the mean amount of time Americans spend emailing weekly
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Lower CI
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Upper CI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.844
+</td>
+<td style="text-align:right;">
+2.22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="interpreting-this-interval-in-context-of-the-data-reporting-its-endpoints-in-humanized-units" class="section level3">
+<h3>Interpreting this interval in context of the data, reporting its endpoints in “humanized” units</h3>
+<p>We found the confidence interval for the mean email usage in the sample to be from 6h24m to 7h28m. Given that the sample mean is 6h57m, we this result does not seem odd and fits the narrative of a confidence interval.</p>
+</div>
+<div id="would-you-expect-a-99-confidence-interval-to-be-wider-or-narrower-than-the-interval-you-calculated-above-explain-your-reasoning." class="section level3">
+<h3>Would you expect a 99% confidence interval to be wider or narrower than the interval you calculated above? Explain your reasoning.</h3>
+<p>As we know with confidence intervals, if we increasing our confidence, we also increase the corresponding margin of error, which results in a wider interval. Therefore, if we increase the confidence level to 99%, then we expect the range to compensate by becoming wider.</p>
+</div>
+</div>
+
+                        </div>
+                    </section>
+            <!-- Disqus Inject -->
+                
+            </div>
+            
+        <!-- Footer -->
+            
+                <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <ul class="icons">
+                
+                    <li><a href="https://www.instagram.com/issi_haq/" class="icon alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                
+                    <li><a href="https://github.com/IsmaeelMFA" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                
+                    <li><a href="https://www.linkedin.com/in/ismaeel-haq/" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+                
+            </ul>
+            <ul class="copyright">
+                <li>&copy; Ismaeel Haq</li>
+                
+                <li>Design:  <a href="https://www.html5up.net">HTML5 UP</a></li>
+                
+            </ul>
+        </div>
+    </footer>
+
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>

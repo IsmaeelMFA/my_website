@@ -14,8 +14,27 @@
       
       <guid>/blogs/alcohol/</guid>
       <description>Back in 2014, fivethiryeight.com published an article on alchohol consumption in different countries. The data drinks is available as part of the fivethirtyeight package. Let’s get the data.
-library(fivethirtyeight) data(drinks) Before further analysis, let’s have a brief look into the dataframe.
+library(fivethirtyeight) data(drinks) There are character and numeric values. And there are no missing values.
 glimpse(drinks) ## Rows: 193 ## Columns: 5 ## $ country &amp;lt;chr&amp;gt; &amp;quot;Afghanistan&amp;quot;, &amp;quot;Albania&amp;quot;, &amp;quot;Algeria&amp;quot;, &amp;quot;An… ## $ beer_servings &amp;lt;int&amp;gt; 0, 89, 25, 245, 217, 102, 193, 21, 261, … ## $ spirit_servings &amp;lt;int&amp;gt; 0, 132, 0, 138, 57, 128, 25, 179, 72, 75… ## $ wine_servings &amp;lt;int&amp;gt; 0, 54, 14, 312, 45, 45, 221, 11, 212, 19… ## $ total_litres_of_pure_alcohol &amp;lt;dbl&amp;gt; 0.</description>
+    </item>
+    
+    <item>
+      <title>Analysing General Social Survey Data</title>
+      <link>/blogs/gss/</link>
+      <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
+      
+      <guid>/blogs/gss/</guid>
+      <description>The General Social Survey (GSS) gathers data on American society in order to monitor and explain trends in attitudes, behaviours, and attributes. Many trends have been tracked for decades, so one can see the evolution of attitudes, etc in American Society.
+In this assignment we analyze data from the 2016 GSS sample data, using it to estimate values of population parameters of interest about US adults. The GSS sample data file has 2867 observations of 935 variables, but we are only interested in very few of these variables and you are using a smaller file.</description>
+    </item>
+    
+    <item>
+      <title>Exploring Omega Group plc&#39;s Pay Discrimination</title>
+      <link>/blogs/omega/</link>
+      <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
+      
+      <guid>/blogs/omega/</guid>
+      <description>Background At the last board meeting of Omega Group Plc., the headquarters of a large multinational company, the issue was raised that women were being discriminated in the company, in the sense that the salaries were not the same for male and female executives. A quick analysis of a sample of 50 employees (of which 24 men and 26 women) revealed that the average salary for men was about 8,700 higher than for women.</description>
     </item>
     
     <item>

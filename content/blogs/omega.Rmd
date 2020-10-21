@@ -5,10 +5,10 @@ categories:
 date: "2017-10-31T22:42:51-05:00"
 description: Analysing the pay gap of a multi-national corporation?
 draft: false
-image: pic03.jpg
+image: pay.jpg
 keywords: ""
 slug: omega
-title: Exploring Omega's Pay Discrimination
+title: Exploring Omega Group plc's Pay Discrimination
 ---
 ```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
@@ -25,8 +25,26 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r load-libraries, echo=FALSE}
 
-## Omega Group plc- Pay Discrimination
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(GGally)
+library(readxl)
+library(here)
+library(skimr)
+library(janitor)
+library(broom)
+library(tidyquant)
+library(infer)
+library(openintro)
+library(tidyquant)
+library(scales)
+library(lubridate)
+library(kableExtra)
+```
+
 
 ## Background
 
@@ -37,7 +55,7 @@ The objective is to find out whether there is indeed a significant difference be
 ## Loading the data
 
 
-```{r load_omega_data}
+```{r load_omega_data, cache=TRUE}
 
 omega <- read_csv("omega.csv")
 
@@ -46,7 +64,7 @@ glimpse(omega)
 
 ```
 
-> As shown above, the data set has 50 observations and 3 variables, i.e. salary, gender and work experience.
+As shown above, the data set has 50 observations and 3 variables, i.e. salary, gender and work experience.
 
 ## Relationship Salary - Gender
 
@@ -73,9 +91,9 @@ omega %>%
 ```
 
 
-> From the above table, we find that for almost all the statistics (including min, Q1, median, Q3, max, mean), males have higher salary than females. 
+From the above table, we find that for almost all the statistics (including min, Q1, median, Q3, max, mean), males have higher salary than females. 
 
-> Besides, the mean salary of females is in the range [61486, 67599] and the mean salary of males is in the range [70088, 76390]. There is no overlap between these two confidence intervals.This would allow us to reject the null hypothesis, but we will carry out hypothesis testing anyway and analyse the relationships between all the remaining factors.
+Besides, the mean salary of females is in the range [61486, 67599] and the mean salary of males is in the range [70088, 76390]. There is no overlap between these two confidence intervals.This would allow us to reject the null hypothesis, but we will carry out hypothesis testing anyway and analyse the relationships between all the remaining factors.
 
 Then, we use `t.test()` and the simulation method from the `infer` package to run a hypothesis testing, assuming as a null hypothesis that the mean difference in salaries is zero, or that, on average, men and women make the same amount of money. 
 
@@ -109,7 +127,7 @@ stimulated %>%
 
 ```
 
-> In both t.test and bootstrap hypothesis test, the p-value generated is less than the alpha value of 0.05. Therefore, we reject the null hypothesis and conclude that there is a statistically significant difference in salary between male and female employees in Omega Group. 
+In both t.test and bootstrap hypothesis test, the p-value generated is less than the alpha value of 0.05. Therefore, we reject the null hypothesis and conclude that there is a statistically significant difference in salary between male and female employees in Omega Group. 
 
 ## Relationship Experience - Gender
 
@@ -156,7 +174,7 @@ stimulated %>%
 
 ```
 
-> In both t.test and bootstrap hypothesis test, the p-value generated is less than the alpha value of 0.05. Therefore, we reject the null hypothesis and conclude that there is a statistically significant difference in experience between male and female employees in Omega Group. 
+In both t.test and bootstrap hypothesis test, the p-value generated is less than the alpha value of 0.05. Therefore, we reject the null hypothesis and conclude that there is a statistically significant difference in experience between male and female employees in Omega Group. 
 
 ## Relationship Salary - Experience
 
@@ -178,7 +196,7 @@ ggplot(omega,
 
 ```
 
-> From the scatterplot shown above, there seems to be a positive relationship between years of experience and salary, although the difference in salary appears to decrease at higher levels of experience.
+From the scatterplot shown above, there seems to be a positive relationship between years of experience and salary, although the difference in salary appears to decrease at higher levels of experience.
 
 ## Check correlations between the data
 

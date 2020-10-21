@@ -39,6 +39,13 @@ library(tidyquant)
 library(rvest)    # scrape websites
 library(purrr)  
 library(lubridate) #to handle dates
+library(kableExtra)
+library(knitr)
+library(dplyr)
+library(gapminder)
+library(ggplot2)
+library(patchwork)
+library(scales)
 ```
 
 Back in 2014, [fivethiryeight.com](https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/) published an article on alchohol consumption in different countries. The data `drinks` is available as part of the `fivethirtyeight` package. Let's get the data.
@@ -46,94 +53,72 @@ Back in 2014, [fivethiryeight.com](https://fivethirtyeight.com/features/dear-mon
 ```{r, load_alcohol_data}
 library(fivethirtyeight)
 data(drinks)
+
 ```
 
-Before further analysis, let's have a brief look into the dataframe.
+There are character and numeric values. And there are no missing values.
 
 ```{r glimpse_skim_data}
+
 glimpse(drinks)
 skim(drinks)
+
 ```
 
-There are 193 rows, which represent 193 countries, and 5 columns, among which we have 1 character variable and 4 numeric variables. Then, let's draw a plot for the top and bottom 25 beer consuming countries. 
+The plot below shows the top 25 beer consuming countries.
 
-```{r beer_plot_top_25}
-beer_plot <- drinks %>%
-  arrange(desc(beer_servings)) %>%
-  select(country, beer_servings)
-beer_plot_top_25 <- head(beer_plot, 25)
-ggplot(data = beer_plot_top_25, aes(x = beer_servings, y = reorder(country, beer_servings))) + 
-  geom_col() + 
-  labs(title = "Top 25 Beer Consuming Counntries", 
-       x = "Servings",
-       y = "Countries")
+```{r beer_plot}
+
+top25_beer <- drinks %>% 
+  arrange(desc(beer_servings)) %>% 
+head(25)
+
+ggplot(data = top25_beer) + 
+  geom_bar(stat = "identity",fill = 'yellow', mapping = aes(y = reorder(country, beer_servings), x = beer_servings))+
+  labs(y="Country", x="Servings per person") + 
+  facet_grid()+
+  labs(title = "Top 25 Beer Consuming Countries", subtitle = "2010 Data, servings per person")
+
 ```
 
-```{r beer_plot_bottom_25}
-beer_plot_new <- drinks %>%
-  arrange(beer_servings) %>%
-  select(country, beer_servings)
-beer_plot_bottom_25 <- head(beer_plot_new, 25)
-ggplot(data = beer_plot_bottom_25, aes(x = beer_servings, y = reorder(country, beer_servings))) + 
-  geom_col() + 
-  labs(title = "Bottom 25 Beer Consuming Counntries", 
-       x = "Servings",
-       y = "Countries")
+The plot below shows the top 25 wine consuming countries.
+
+```{r wine_plot}
+
+top25_wine <- drinks %>% 
+  arrange(desc(wine_servings)) %>% 
+head(25)
+
+ggplot(data = top25_wine) + 
+  geom_bar(stat = "identity",fill = 'red',mapping = aes(y = reorder(country, wine_servings), x = wine_servings))+
+  labs(y="Country", x="Servings per person") + 
+  facet_grid()+
+  labs(title = "Top 25 Wine Consuming Countries", subtitle = "2010 Data, servings per person")
+
 ```
 
-As we can see from the plots, Namibians consume the most beer among these 193 countries, followed by Czech Republic and Gabon. There are 15 countries either consume little beer or have missing values here. Intuitively, it makes sense that Saudi Arabian people do not drink beer because of their religon. However, things might be different for North Korea, and I believe there is a missing value instead that North Korean people do not have beer at all.
+Finally, the plot below shows the top 25 spirit consuming countries.
 
-```{r wine_plot_top_25}
-wine_plot <- drinks %>%
-  arrange(desc(wine_servings)) %>%
-  select(country, wine_servings)
-wine_plot_top_25 <- head(wine_plot, 25)
-ggplot(data = wine_plot_top_25, aes(x = wine_servings, y = reorder(country, wine_servings))) + 
-  geom_col() + 
-  labs(title = "Top 25 wine Consuming Counntries", 
-       x = "Servings",
-       y = "Countries")
+```{r spirit_plot}
+# YOUR CODE GOES HERE
+top25_spirits <- drinks %>% 
+  arrange(desc(spirit_servings)) %>% 
+head(25)
+
+ggplot(data = top25_spirits) + 
+  geom_bar(stat = "identity", fill = 'pink', mapping = aes(y = reorder(country, spirit_servings), x = spirit_servings))+
+  labs(y="Country", x="Servings per person") + 
+  facet_grid()+
+  labs(title = "Top 25 Spirits Consuming Countries", subtitle = "2010 Data, servings per person")
+
 ```
 
-```{r wine_plot_bottom_25}
-wine_plot_new <- drinks %>%
-  arrange(wine_servings) %>%
-  select(country, wine_servings)
-wine_plot_bottom_25 <- head(wine_plot_new, 25)
-ggplot(data = wine_plot_bottom_25, aes(x = wine_servings, y = reorder(country, wine_servings))) + 
-  geom_col() + 
-  labs(title = "Bottom 25 wine Consuming Counntries", 
-       x = "Servings",
-       y = "Countries")
-```
+From the first plot it can be inferred that beer is probably one of the most widely accepted / appreciated alcoholic beverages as the countries included in the top 25 beer consuming countries spread across many continents. However, the majority of countries with high beer consumption are European which may be due to geological differences and special requirements for growing wheat / hops or other ingredients. Surprisingly, the country with the highest beer consumption is Namibia rather than countries known for their beer consumption and their world-renowned breweries like Germany or Ireland.
 
-From the above plots, French people consume the most wine, which is intuitively correct, followed by Portugal and Andorra. It is easy to notice that European countries take up the most places of top 25 beer consuming countries, so we may conclude that European people do have a passion for wine. As for the bottom 25 countries, all of them show a value of zero, but just like the beer analysis above, some countries sure do not drink wine, while some may just have a missing value over here.
+The top 3 wine consuming countries are France, Portugal and Andorra. These graphs reveal individual countries are frequently attached to one alcohol. For example, wine & cheese in France are a must at a dinner, whereas spirits is often associated with Russians. This can also be explained by natural endowments that allow countries to develop alcohols through their fertile land. For example, the Bordeaux region in France and the Douro Valley in Portugal have lands that enable the production of wines at high quality and in mass quantity.
 
-```{r spirit_plot_top_25}
-spirit_plot <- drinks %>%
-  arrange(desc(spirit_servings)) %>%
-  select(country, spirit_servings)
-spirit_plot_top_25 <- head(spirit_plot, 25)
-ggplot(data = spirit_plot_top_25, aes(x = spirit_servings, y = reorder(country, spirit_servings))) + 
-  geom_col() + 
-  labs(title = "Top 25 Spirit Consuming Counntries", 
-       x = "Servings",
-       y = "Countries")
-```
+Of the top 5 countries that consume the most spirits, 3 are in the Caribbean. This isn't entirely surprising, considering the murky history of rum, as commonly associated with drunken sailors and the infamous triangular slave trade. The amber nectar, which was discovered when waste from sugar cane production was fermented, emblematises the Caribbean spirit (pardon the pun). Therefore, it is no wonder that we can notice such a strong representation from this region near the top of the list. As we move down the rankings, so too do we venture more East. For example, we can see that vodka influences in Central European and Russian. The graph is interesting in a different way to the others - Typically, different spirits are more commonly localised in specific regions, where they are drank as a matter of tradition, and variation occurs within the specific spirit level, rather than within the wider type of spirit level. To test this hypothesis, it would be useful to analyse a dataset that was broken into types of spirit consumer per nation and contrast that with this data.
 
-```{r spirit_plot_bottom_25}
-spirit_plot_new <- drinks %>%
-  arrange(spirit_servings) %>%
-  select(country, spirit_servings)
-spirit_plot_bottom_25 <- head(spirit_plot_new, 25)
-ggplot(data = spirit_plot_bottom_25, aes(x = spirit_servings, y = reorder(country, spirit_servings))) + 
-  geom_col() + 
-  labs(title = "Bottom 25 Spirit Consuming Counntries", 
-       x = "Servings",
-       y = "Countries")
-```
-
-The maximun consumption for spirits is bigger than both beer and wine, as Grenadaians drink over 400 liters of spirits per year. Belarus and Russian Federation are top 2 and top 3, respectively. There are 23 countries that have zero value for spirits consumption, either becuase of religon reason or due to missing values.
 
 ```{r total_lirers_of_pure_alcohol}
 pure_alcohol <- drinks %>%
@@ -160,4 +145,4 @@ drinks_ranks_top_10 <- head(drinks_ranks, 10)
 drinks_ranks_top_10
 ```
 
-As for pure alcohol consumption, Belarus, Lithuania and Andorra take up the first 3 places. As we can see from the above table, countries with higher rankings in pure alcohol consumption also have higher rankings in at least one of the three main alcohol beverages. 
+Belarus, Lithuania and Andorra take up the first 3 places for pure alcohol consumption. As we can see from the above table, countries with higher rankings in pure alcohol consumption also tend to have higher rankings in at least one of the three main alcohol beverages. 
