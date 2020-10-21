@@ -110,10 +110,10 @@ disqusShortname = ""
       url = "blogs/omega"
 
     [[params.tiles.showcase]]
-      title = "Ipsum"
-      subtitle = "Nisl Sed Aliquam"
+      title = "Social Media"
+      subtitle = "How much do youth really use their mobiles?"
       image = "pic04.jpg"
-      url = "blogs/ipsum"
+      url = "blogs/gss"
 
     # You can make more showcases by copy and pasting the code above
 
