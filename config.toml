@@ -1,7 +1,7 @@
 # Site settings
 baseURL = "https://ismaeel-portyfoles.netlify.app/"
 languageCode = "en-us"
-title = "Ismaeel"
+title = "Ismaeel Haq Portfolio"
 theme = "forty"
 
 # Enter your tracking code to enable Google Analytics
@@ -20,7 +20,7 @@ disqusShortname = ""
 
   # Provide your metadata here.
   name = "Ismaeel"
-  description = "Ismaeel's description"
+  description = "Ismaeel's Data Analysis Portfolio"
 
   # Link custom assets relative to /static
   custom_css = []
@@ -82,7 +82,7 @@ disqusShortname = ""
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "Ismaeel's Portfolio Website"
+    title = "Ismaeel's Data Analysis Projects"
     subtitle = "Welcome to my portfolio website, which details some of the projects that I'm working on at the moment."
     buttonText = "My Projects"
 

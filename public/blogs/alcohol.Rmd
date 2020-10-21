@@ -5,7 +5,7 @@ categories:
 date: "2017-10-31T22:42:51-05:00"
 description: Which nation are the biggest heavyweights?
 draft: false
-image: pic02.jpg
+image: beer.jpg
 keywords: ""
 slug: alcohol
 title: Alcohol consumption around the world!
